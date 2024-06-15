@@ -8,10 +8,10 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { emailLogin } from "./actions";
+import { signup } from "./actions";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { OAuthButtons } from "./oauth-signin";
+import { OAuthButtons } from "../login/oauth-signin";
 import Link from "next/link";
 
 export default async function Login({
@@ -23,17 +23,15 @@ export default async function Login({
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (user) {
     return redirect("/passwords");
   }
-
   return (
     <section className="h-[calc(100vh-57px)] flex justify-center items-center">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Zaloguj się</CardTitle>
-          <CardDescription>Wprowadź dane swojego konta</CardDescription>
+          <CardTitle className="text-2xl">Zarejestruj się</CardTitle>
+          <CardDescription>Wprowadź dane swojego nowego konta</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <form id="login-form" className="grid gap-4">
@@ -65,15 +63,15 @@ export default async function Login({
                 {searchParams.message}
               </div>
             )}
-            <Button formAction={emailLogin} className="w-full">
-              Zaloguj mnie
+            <Button formAction={signup} className="w-full">
+              Zarejestruj mnie
             </Button>
           </form>
           <OAuthButtons />
           <div className="text-center text-sm">
-            Nie masz konta?{" "}
-            <Link href="/register" className="underline">
-              Zarejestruj się
+            Masz już konto?{" "}
+            <Link href="/login" className="underline">
+              Zaloguj się
             </Link>
           </div>
         </CardContent>

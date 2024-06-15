@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { Button } from "@/components/ui/button";
 import { Provider } from "@supabase/supabase-js";
 import { Github } from "lucide-react";
@@ -23,14 +23,15 @@ export function OAuthButtons() {
     <>
       {oAuthProviders.map((provider) => (
         <Button
+          key={provider.name}
           className="flex items-center justify-center gap-2 w-full"
-					variant={"outline"}
-					onClick={async () => {
-						await oAuthSignIn(provider.name);
-					}}
-				>
-					{provider.icon}
-          Login with {provider.displayName}
+          variant={"outline"}
+          onClick={async () => {
+            await oAuthSignIn(provider.name);
+          }}
+        >
+          {provider.icon}
+          Zaloguj się za pomocą {provider.displayName}
         </Button>
       ))}
     </>

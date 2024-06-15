@@ -10,8 +10,6 @@ import { getURL } from "@/utils/helpers";
 export async function emailLogin(formData: FormData) {
   const supabase = createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
@@ -20,31 +18,11 @@ export async function emailLogin(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    redirect("/login?message=Could not authenticate user");
+    redirect("/login?message=Zweryfikuj e-mail!");
   }
 
   revalidatePath("/", "layout");
-  redirect("/todos");
-}
-
-export async function signup(formData: FormData) {
-  const supabase = createClient();
-
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  };
-
-  const { error } = await supabase.auth.signUp(data);
-
-  if (error) {
-    redirect("/login?message=Error signing up");
-  }
-
-  revalidatePath("/", "layout");
-  redirect("/login");
+  redirect("/passwords");
 }
 
 export async function signOut() {
@@ -54,22 +32,22 @@ export async function signOut() {
 }
 
 export async function oAuthSignIn(provider: Provider) {
-	if (!provider)  {
-		return redirect('login?message=No provider selected')
-	}
+  if (!provider) {
+    return redirect("login?message=Nie wybrano dostawcy");
+  }
 
-	const supabase = createClient();
-	const redirectUrl = getURL("/auth/callback");
-	const { data, error } = await supabase.auth.signInWithOAuth({
-		provider,
-		options: {
-			redirectTo: redirectUrl,
-		}
-	})
+  const supabase = createClient();
+  const redirectUrl = getURL("/auth/callback");
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: redirectUrl,
+    },
+  });
 
-	if (error) {
-		return redirect("login?message=Could not authenticate user");
-	}
+  if (error) {
+    return redirect("login?message=Dostawca uwierzytelnienia nie odpowiada");
+  }
 
-	return redirect(data.url)
+  return redirect(data.url);
 }
