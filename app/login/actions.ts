@@ -18,7 +18,7 @@ export async function emailLogin(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    redirect("/login?message=Zweryfikuj e-mail!");
+    redirect("/login?message=Zarejestruj konto albo zweryfikuj e-mail!");
   }
 
   revalidatePath("/", "layout");
