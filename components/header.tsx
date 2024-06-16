@@ -16,7 +16,6 @@ export default async function Header() {
           <a className="mr-6 flex items-center space-x-2" href="/">
             <span className="font-bold">Menadżer haseł</span>
           </a>
-          <Link href="/todos">WIP</Link>
           <Link href="/passwords">Hasła</Link>
           <Link href="/login">Zarejestruj</Link>
           <Link href="/register">Zaloguj</Link>
