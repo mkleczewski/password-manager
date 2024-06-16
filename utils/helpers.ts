@@ -1,10 +1,5 @@
 export const getURL = (path: string = "") => {
   // Check if NEXT_PUBLIC_SITE_URL is set and non-empty. Set this to your site URL in production env.
-  console.log(
-    process?.env?.NEXT_PUBLIC_SITE_URL,
-    " ",
-    process?.env?.NEXT_PUBLIC_VERCEL_URL
-  );
   let url =
     process?.env?.NEXT_PUBLIC_SITE_URL &&
     process.env.NEXT_PUBLIC_SITE_URL.trim() !== ""
@@ -16,11 +11,12 @@ export const getURL = (path: string = "") => {
       : // If neither is set, default to localhost for local development.
         "http://localhost:3000/";
 
-  console.log(url);
   // Trim the URL and remove trailing slash if exists.
   url = url.replace(/\/+$/, "");
+  console.log(url);
   // Make sure to include `https://` when not localhost.
   url = url.includes("http") ? url : `https://${url}`;
+  console.log(url);
   // Ensure path starts without a slash to avoid double slashes in the final URL.
   path = path.replace(/^\/+/, "");
   console.log(path);

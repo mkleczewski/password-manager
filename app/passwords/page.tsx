@@ -5,6 +5,16 @@ import { redirect } from "next/navigation";
 import { getDecryptedPasswords } from "./getDecryptedPasswords";
 
 export default async function PasswordsPage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/login");
+  }
+
   const passwords = await getDecryptedPasswords();
 
   return (
