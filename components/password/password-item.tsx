@@ -76,7 +76,7 @@ export function PasswordCard({
             </Tooltip>
           </TooltipProvider>
         </p>
-        <p className={cn("flex-1 pt-2 min-w-0 break-words")}>
+        <p className={cn("flex-1 pt-2 min-w-0 break-words text-right")}>
           {password.website}
         </p>
         <Toggle
@@ -85,15 +85,6 @@ export function PasswordCard({
         >
           👀
         </Toggle>
-        <Button
-          disabled={pending}
-          formAction={async (data) => {}}
-          variant="ghost"
-          size="icon"
-        >
-          <FilePenLine className="h-5 w-5" />
-          <span className="sr-only">Edytuj hasło</span>
-        </Button>
         <Button
           disabled={pending}
           formAction={async (data) => {
