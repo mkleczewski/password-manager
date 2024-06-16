@@ -45,5 +45,11 @@ export async function getDecryptedPasswords() {
     })
   );
 
+  decryptedPasswords.sort((a, b) => {
+    const dateA = new Date(a.inserted_at);
+    const dateB = new Date(b.inserted_at);
+    return dateB.getTime() - dateA.getTime();
+  });
+
   return decryptedPasswords;
 }

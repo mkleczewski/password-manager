@@ -2,13 +2,21 @@
 import { deletePassword, updatePassword } from "@/app/passwords/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { Password } from "@/types/custom";
-import { Trash2 } from "lucide-react";
+import { Trash2, FilePenLine } from "lucide-react";
 import { useFormStatus } from "react-dom";
 import { PasswordOptimisticUpdate } from "./password-list";
 import { calculatePasswordStrength } from "@/utils/calculatePasswordStrength";
+import { Toggle } from "@/components/ui/toggle";
+import { useState } from "react";
+import { isTimestampOlderThan30Days } from "@/utils/isTimestampOlderThan30Days";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function PasswordItem({
   password,
@@ -34,6 +42,11 @@ export function PasswordCard({
   const { pending } = useFormStatus();
   const strength = calculatePasswordStrength(password.password);
 
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+  const isOld = isTimestampOlderThan30Days(password.inserted_at);
+
   return (
     <Card
       className={cn(
@@ -41,16 +54,46 @@ export function PasswordCard({
         pending && "opacity-50",
         strength === "weak" && "shadow-[0_2px_0_0_#f87171]",
         strength === "medium" && "shadow-[0_2px_0_0_#facc15]",
-        strength === "strong" && "shadow-[0_2px_0_0_#4ade80]"
+        strength === "strong" && "shadow-[0_2px_0_0_#4ade80]",
+        isOld && "shadow-[0_2px_0_0_#f87171]"
       )}
     >
       <CardContent className="flex items-start gap-3 p-3">
         <p className={cn("flex-1 pt-2 min-w-0 break-words")}>
-          {password.password}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                {showPassword
+                  ? password.password
+                  : "*".repeat(password.password.length)}
+              </TooltipTrigger>
+              <TooltipContent>
+                {isOld ? "Stare hasło! " : ""}
+                {strength === "weak" ? "Słabe hasło! " : ""}
+                {strength === "medium" ? "Średnie hasło. " : ""}
+                {strength === "strong" ? "Mocne hasło. " : ""}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </p>
         <p className={cn("flex-1 pt-2 min-w-0 break-words")}>
           {password.website}
         </p>
+        <Toggle
+          onClick={togglePasswordVisibility}
+          aria-label="Show/Hide Password"
+        >
+          👀
+        </Toggle>
+        <Button
+          disabled={pending}
+          formAction={async (data) => {}}
+          variant="ghost"
+          size="icon"
+        >
+          <FilePenLine className="h-5 w-5" />
+          <span className="sr-only">Edytuj hasło</span>
+        </Button>
         <Button
           disabled={pending}
           formAction={async (data) => {

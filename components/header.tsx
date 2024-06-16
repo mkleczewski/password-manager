@@ -17,8 +17,6 @@ export default async function Header() {
             <span className="font-bold">Menadżer haseł</span>
           </a>
           <Link href="/passwords">Hasła</Link>
-          <Link href="/login">Zarejestruj</Link>
-          <Link href="/register">Zaloguj</Link>
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-2">
           {user !== null ? (
