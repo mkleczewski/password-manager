@@ -55,7 +55,7 @@ export function PasswordCard({
         strength === "weak" && "shadow-[0_2px_0_0_#f87171]",
         strength === "medium" && "shadow-[0_2px_0_0_#facc15]",
         strength === "strong" && "shadow-[0_2px_0_0_#4ade80]",
-        isOld && "shadow-[0_2px_0_0_#f87171]"
+        isOld && "shadow-[0_2px_0_0_#f87171] text-gray-500 bg-opacity-50"
       )}
     >
       <CardContent className="flex items-start gap-3 p-3">
