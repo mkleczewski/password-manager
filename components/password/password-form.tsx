@@ -1,37 +1,45 @@
 "use client";
-import { addTodo } from "@/app/todos/actions";
+import { addPassword } from "@/app/passwords/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Send } from "lucide-react";
 import { useRef } from "react";
 import { useFormStatus } from "react-dom";
-import { TodoOptimisticUpdate } from "./todo-list";
-import { Todo } from "@/types/custom";
+import { PasswordOptimisticUpdate } from "./password-list";
+import { Password } from "@/types/custom";
 
 function FormContent() {
   const { pending } = useFormStatus();
   return (
     <>
-      <Textarea
+      <Input
         disabled={pending}
-        minLength={4}
-        name="todo"
+        name="password"
+        type="password"
+        placeholder="Hasło"
         required
-        placeholder="Add a new todo"
+      />
+      <Input
+        disabled={pending}
+        name="website"
+        type="text"
+        placeholder="Strona internetowa"
+        required
       />
       <Button type="submit" size="icon" className="min-w-10" disabled={pending}>
         <Send className="h-5 w-5" />
-        <span className="sr-only">Submit Todo</span>
+        <span className="sr-only">Dodaj hasło</span>
       </Button>
     </>
   );
 }
 
-export function TodoForm({
+export function PasswordForm({
   optimisticUpdate,
 }: {
-  optimisticUpdate: TodoOptimisticUpdate;
+  optimisticUpdate: PasswordOptimisticUpdate;
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   return (
@@ -41,15 +49,16 @@ export function TodoForm({
           ref={formRef}
           className="flex gap-4"
           action={async (data) => {
-            const newTodo: Todo = {
+            const newPassword: Password = {
               id: -1,
-              inserted_at: "",
               user_id: "",
-              task: data.get("todo") as string,
-              is_complete: false,
+              password: data.get("password") as string,
+              website: data.get("website") as string,
+							inserted_at: "",
+							salt: ""
             };
-            optimisticUpdate({ action: "create", todo: newTodo });
-            await addTodo(data);
+            optimisticUpdate({ action: "create", password: newPassword });
+            await addPassword(data);
             formRef.current?.reset();
           }}
         >

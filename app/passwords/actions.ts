@@ -1,36 +1,83 @@
 "use server";
 
-import { Todo } from "@/types/custom";
+import { Password } from "@/types/custom";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import crypto from "crypto";
+import argon2 from "argon2";
+import AES from "crypto-js/aes";
 
-export async function addTodo(formData: FormData) {
+export async function addPassword(formData: FormData) {
   const supabase = createClient();
-  const text = formData.get("todo") as string | null;
-  if (!text) {
-    throw new Error("Text is required");
+  const password = formData.get("password") as string;
+  const website = formData.get("website") as string;
+
+  if (!password || !website) {
+    throw new Error("Podaj hasło i stronę internetową.");
   }
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    throw new Error("User is not loggin in");
+    throw new Error("Nie zalogowany.");
   }
 
-  const { error } = await supabase.from("todos").insert({
-    task: text,
+  const { data: userSecretData, error: secretError } = await supabase
+    .from("user_secrets")
+    .select("secret")
+    .eq("user_id", user.id)
+    .single();
+
+  if (secretError) {
+    throw new Error(
+      "Błąd podczas pobierania sekretu użytkownika: " + secretError.message
+    );
+  }
+
+  const salt = crypto.randomBytes(16);
+
+  const key = await argon2.hash(userSecretData.secret, { salt });
+
+  const encryptedPassword = AES.encrypt(password, key).toString();
+
+  const { error: insertError } = await supabase.from("passwords").insert({
     user_id: user.id,
+    password: encryptedPassword,
+    website,
+    salt: salt.toString("hex"),
+  });
+
+  if (insertError) {
+    throw new Error("Nie udało się dodać hasła: " + insertError.message);
+  }
+
+  revalidatePath("/passwords");
+}
+
+export async function deletePassword(id: number) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("User is not logged in");
+  }
+
+  const { error } = await supabase.from("passwords").delete().match({
+    user_id: user.id,
+    id: id,
   });
 
   if (error) {
-    throw new Error("Error adding task");
+    throw new Error("Error deleting task");
   }
 
-  revalidatePath("/todos");
+  revalidatePath("/passwords");
 }
 
-export async function deleteTodo(id: number) {
+export async function updatePassword(password: Password) {
   const supabase = createClient();
   const {
     data: { user },
@@ -38,38 +85,16 @@ export async function deleteTodo(id: number) {
 
   if (!user) {
     throw new Error("User is not logged in");
-	}
-	
-	const { error } = await supabase.from("todos").delete().match({
-		user_id: user.id,
-		id: id
-	});
+  }
 
-	if (error) {
-		throw new Error("Error deleting task")
-	}
-
-	revalidatePath("/todos")
-}
-
-export async function updateTodo(todo: Todo) {
-	const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    throw new Error("User is not logged in");
-	}
-	
-	const { error } = await supabase.from("todos").update(todo).match({
+  const { error } = await supabase.from("passwords").update(password).match({
     user_id: user.id,
-    id: todo.id,
+    id: password.id,
   });
 
   if (error) {
     throw new Error("Error updating task");
-	}
-	
-	revalidatePath("/todos")
+  }
+
+  revalidatePath("/passwords");
 }

@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token_hash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
-  const next = searchParams.get("next") ?? "/todos";
+  const next = searchParams.get("next") ?? "/passwords";
 
   const redirectTo = request.nextUrl.clone();
   redirectTo.pathname = next;
@@ -27,7 +27,6 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // return the user to an error page with some instructions
-  redirectTo.pathname = "/login?message=Coud not verify OTP";
+  redirectTo.pathname = "/login?message=Nie zweryfikowano OTP";
   return NextResponse.redirect(redirectTo);
 }

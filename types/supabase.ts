@@ -14,6 +14,7 @@ export type Database = {
           id: number;
           inserted_at: string;
           password: string;
+          salt: string;
           user_id: string;
           website: string;
         };
@@ -21,6 +22,7 @@ export type Database = {
           id?: number;
           inserted_at?: string;
           password: string;
+          salt: string;
           user_id: string;
           website: string;
         };
@@ -28,6 +30,7 @@ export type Database = {
           id?: number;
           inserted_at?: string;
           password?: string;
+          salt?: string;
           user_id?: string;
           website?: string;
         };
