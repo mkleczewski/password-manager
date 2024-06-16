@@ -38,5 +38,5 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/login?message=Zarejestrowano konto. ");
+  redirect("/login?message=Zarejestrowano konto, zweryfikuj email. ");
 }
