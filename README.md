@@ -3,7 +3,7 @@
 Base project forked from: https://github.com/jolbol1/supatodo
 which originally was a fork of: https://github.com/shadcn-ui/taxonomy
 
-### What I added/chaned
+### What I added/changed
 
 - removed /login registration logic and added it to the /register path
 - added /passwords route
@@ -17,6 +17,7 @@ which originally was a fork of: https://github.com/shadcn-ui/taxonomy
 - added calculatePasswordStrength utility function for meassuring password strength
 - the above mentioned function is later used for styling password cards
 - changed header and root page to fit project
+- probably did more things that I already forgot about, sorry!
 
 NOTE: Adding user secrets creation has broken authentication with GitHub and I haven't fixed it yet.
 
