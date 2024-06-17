@@ -1,8 +1,19 @@
 ## NextJS 14 & Supabase password manager
 
-Base project forked from (originally just a todo app): https://github.com/jolbol1/supatodo
+Base project forked from: https://github.com/jolbol1/supatodo
+which originally was a fork of: https://github.com/shadcn-ui/taxonomy
 
-## Supabase Tables
+### How to run project locally
+
+```
+npm install
+npm run build
+npm run dev
+```
+
+### Supabase setup
+
+Don't forget to add the supbase_url and supabase_anon_key environment variables!
 
 ```sql
 -- passwords table
