@@ -10,15 +10,15 @@ which originally was a fork of: https://github.com/shadcn-ui/taxonomy
 - added form components for passwords
 - added passwords and user_secret tables in supabase
 - added/changed server actions:
- - register form now has server side validation with zod
- - register actions now also give new users their individual user secret for password encryption,
- - added password actions that handle adding and removing passwords - these use user secrets, argon2 and AES to send encrypted passwords to the database
- - added getDecryptedPasswords function for fetching and decrypting user passwords
+    - register form now has server side validation with zod,
+    - register actions now also give new users their individual user secret for password encryption,
+    - added password actions that handle adding and removing passwords - these use user secrets, argon2 and AES to send encrypted passwords to the database,
+    - added getDecryptedPasswords function for fetching and decrypting user passwords.
 - added calculatePasswordStrength utility function for meassuring password strength
 - the above mentioned function is later used for styling password cards
 - changed header and root page to fit project
 
-NOTE: Adding user secret creating might have broken authentication with GitHub and I haven't fixed it yet
+NOTE: Adding user secrets creation has broken authentication with GitHub and I haven't fixed it yet.
 
 ### How to run project locally
 
