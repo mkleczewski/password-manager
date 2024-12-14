@@ -35,7 +35,7 @@ export async function signup(formData: FormData) {
   const { data, error } = await supabase.auth.signUp(registrationData);
 
   if (error) {
-    redirect("/register?message=Error singing up");
+    redirect("/register?message=Error signing up");
   }
 
   const userId = data.user?.id;
