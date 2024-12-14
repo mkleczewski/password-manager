@@ -14,19 +14,19 @@ export default async function Header() {
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <nav className="flex items-center space-x-4 lg:space-x-6">
           <a className="mr-6 flex items-center space-x-2" href="/">
-            <span className="font-bold">Menadżer haseł</span>
+            <span className="font-bold">Password manager</span>
           </a>
-          <Link href="/passwords">Hasła</Link>
+          <Link href="/passwords">Passwords</Link>
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-2">
           {user !== null ? (
             <form action={signOut} className="flex items-center gap-2">
               <p>{user.email}</p>
-              <Button>Wyloguj mnie</Button>
+              <Button>Log out</Button>
             </form>
           ) : (
             <Button asChild>
-              <Link href="/login">Zaloguj się</Link>
+              <Link href="/login">Log in</Link>
             </Button>
           )}
         </div>
