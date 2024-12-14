@@ -32,8 +32,8 @@ export default async function Login({
     <section className="h-[calc(100vh-57px)] flex justify-center items-center">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Zaloguj się</CardTitle>
-          <CardDescription>Wprowadź dane swojego konta</CardDescription>
+          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardDescription>Enter your account details</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <form id="login-form" className="grid gap-4">
@@ -43,20 +43,20 @@ export default async function Login({
                 id="email"
                 name="email"
                 type="email"
-                placeholder="Adres E-mail"
+                placeholder="E-mail addres"
                 required
               />
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
-                <Label htmlFor="password">Hasło</Label>
+                <Label htmlFor="password">Password</Label>
               </div>
               <Input
                 minLength={6}
                 name="password"
                 id="password"
                 type="password"
-                placeholder="Hasło"
+                placeholder="Password"
                 required
               />
             </div>
@@ -66,14 +66,14 @@ export default async function Login({
               </div>
             )}
             <Button formAction={emailLogin} className="w-full">
-              Zaloguj mnie
+              Log me in
             </Button>
           </form>
-          <OAuthButtons />
+          {/* <OAuthButtons /> */}
           <div className="text-center text-sm">
-            Nie masz konta?{" "}
+            Don't have an account?{" "}
             <Link href="/register" className="underline">
-              Zarejestruj się
+              Register one
             </Link>
           </div>
         </CardContent>

@@ -31,7 +31,7 @@ export function OAuthButtons() {
           }}
         >
           {provider.icon}
-          Zaloguj się za pomocą {provider.displayName}
+          Log in using {provider.displayName}
         </Button>
       ))}
     </>

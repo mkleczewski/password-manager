@@ -18,7 +18,7 @@ export async function emailLogin(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    redirect("/login?message=Zarejestruj konto albo zweryfikuj e-mail!");
+    redirect("/login?message=Register or verify your e-mail address!");
   }
 
   revalidatePath("/", "layout");
@@ -33,7 +33,7 @@ export async function signOut() {
 
 export async function oAuthSignIn(provider: Provider) {
   if (!provider) {
-    return redirect("login?message=Nie wybrano dostawcy");
+    return redirect("login?message=No provider selected");
   }
 
   const supabase = createClient();
@@ -46,7 +46,7 @@ export async function oAuthSignIn(provider: Provider) {
   });
 
   if (error) {
-    return redirect("login?message=Dostawca uwierzytelnienia nie odpowiada");
+    return redirect("login?message=Authentication provider not responding");
   }
 
   return redirect(data.url);

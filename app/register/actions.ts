@@ -9,7 +9,7 @@ import { createClient } from "@/utils/supabase/server";
 
 const RegistrationSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  password: z.string().min(6, "Password must be at least 8 characters"),
 });
 
 export async function signup(formData: FormData) {
@@ -21,9 +21,10 @@ export async function signup(formData: FormData) {
   });
 
   if (!parsedData.success) {
-    const formattedErrors = parsedData.error.format();
+    const errors = parsedData.error.issues.map((issue) => issue.message);
+    const errorMessage = errors.join("; ");
     return redirect(
-      `/register?message=${encodeURIComponent(JSON.stringify(formattedErrors))}`
+      `/register?message=${encodeURIComponent(JSON.stringify(errorMessage))}`
     );
   }
 
@@ -34,13 +35,15 @@ export async function signup(formData: FormData) {
   const { data, error } = await supabase.auth.signUp(registrationData);
 
   if (error) {
-    redirect("/register?message=Problem przy rejestracji");
+    redirect("/register?message=Error singing up");
   }
 
   const userId = data.user?.id;
 
   if (!userId) {
-    redirect("/register?message=Problem podczas tworzenia sekretu");
+    redirect(
+      "/register?message=Error while creating user secret for password encryption"
+    );
   }
 
   const { error: secretError } = await supabase.from("user_secrets").insert({
@@ -49,9 +52,11 @@ export async function signup(formData: FormData) {
   });
 
   if (secretError) {
-    redirect("/register?message=Problem podczas dodawania sekretu");
+    redirect(
+      "/register?message=Error when adding user secret for password encryption"
+    );
   }
 
   revalidatePath("/", "layout");
-  redirect("/login?message=Zarejestrowano konto, zweryfikuj email. ");
+  redirect("/login?message=Account registered, please verify your email");
 }

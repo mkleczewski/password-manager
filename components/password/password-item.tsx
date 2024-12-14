@@ -68,10 +68,10 @@ export function PasswordCard({
                   : "*".repeat(password.password.length)}
               </TooltipTrigger>
               <TooltipContent>
-                {isOld ? "Stare hasło! " : ""}
-                {strength === "weak" ? "Słabe hasło! " : ""}
-                {strength === "medium" ? "Średnie hasło. " : ""}
-                {strength === "strong" ? "Mocne hasło. " : ""}
+                {isOld ? "Password is too old! " : ""}
+                {strength === "weak" ? "Weak passowrd! " : ""}
+                {strength === "medium" ? "Average password. " : ""}
+                {strength === "strong" ? "Strong password. " : ""}
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -95,7 +95,7 @@ export function PasswordCard({
           size="icon"
         >
           <Trash2 className="h-5 w-5" />
-          <span className="sr-only">Usuń hasło</span>
+          <span className="sr-only">Delete password</span>
         </Button>
       </CardContent>
     </Card>

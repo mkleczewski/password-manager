@@ -12,7 +12,7 @@ export async function getDecryptedPasswords() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    throw new Error("Nie zalogowany.");
+    throw new Error("Not logged in.");
   }
 
   const { data: passwordsWithSalts, error: fetchError } = await supabase

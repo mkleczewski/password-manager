@@ -13,14 +13,14 @@ export async function addPassword(formData: FormData) {
   const website = formData.get("website") as string;
 
   if (!password || !website) {
-    throw new Error("Podaj hasło i stronę internetową.");
+    throw new Error("Enter your password and website address.");
   }
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    throw new Error("Nie zalogowany.");
+    throw new Error("Not logged in.");
   }
 
   const { data: userSecretData, error: secretError } = await supabase
@@ -31,7 +31,7 @@ export async function addPassword(formData: FormData) {
 
   if (secretError) {
     throw new Error(
-      "Błąd podczas pobierania sekretu użytkownika: " + secretError.message
+      "Error while fetching user secret for decryption: " + secretError.message
     );
   }
 
@@ -49,7 +49,7 @@ export async function addPassword(formData: FormData) {
   });
 
   if (insertError) {
-    throw new Error("Nie udało się dodać hasła: " + insertError.message);
+    throw new Error("Error adding password: " + insertError.message);
   }
 
   revalidatePath("/passwords");

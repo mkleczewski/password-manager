@@ -18,19 +18,19 @@ function FormContent() {
         disabled={pending}
         name="password"
         type="password"
-        placeholder="Hasło"
+        placeholder="Password"
         required
       />
       <Input
         disabled={pending}
         name="website"
         type="text"
-        placeholder="Strona internetowa"
+        placeholder="Website"
         required
       />
       <Button type="submit" size="icon" className="min-w-10" disabled={pending}>
         <Send className="h-5 w-5" />
-        <span className="sr-only">Dodaj hasło</span>
+        <span className="sr-only">Add password</span>
       </Button>
     </>
   );
@@ -54,8 +54,8 @@ export function PasswordForm({
               user_id: "",
               password: data.get("password") as string,
               website: data.get("website") as string,
-							inserted_at: "",
-							salt: ""
+              inserted_at: "",
+              salt: "",
             };
             optimisticUpdate({ action: "create", password: newPassword });
             await addPassword(data);

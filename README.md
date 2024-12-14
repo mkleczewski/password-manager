@@ -5,6 +5,7 @@ which originally was a fork of: https://github.com/shadcn-ui/taxonomy
 
 ### What I added/changed
 
+- rewrote project into a password manager
 - removed /login registration logic and added it to the /register path
 - added /passwords route
 - added form components for passwords
